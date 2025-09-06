@@ -1,0 +1,336 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String   @unique
+  firstName   String
+  lastName    String
+  role        UserRole @default(USER)
+  sector      Sector?
+  companyName String?
+  phone       String?
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?       @db.ObjectId
+
+  products    Product[]
+  pitches     Pitch[]
+  compliance  ComplianceRecord[]
+  forumPosts  ForumPost[]
+  forumReplies ForumReply[]
+  impactLogs  ImpactLog[]
+  savedBuyers SavedBuyer[]
+
+  @@map("users")
+}
+
+model Organization {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  address     String?
+  website     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  users User[]
+
+  @@map("organizations")
+}
+
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  hsCode      String
+  description String?
+  category    String
+  sector      Sector
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+
+  pitches    Pitch[]
+  compliance ComplianceRecord[]
+
+  @@map("products")
+}
+
+model Tariff {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  hsCode      String
+  country     String
+  tariffRate  Float
+  effectiveDate DateTime
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([hsCode, country])
+  @@map("tariffs")
+}
+
+model Buyer {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  country       String
+  contactEmail  String?
+  contactPhone  String?
+  importVolume  Float?
+  sector        Sector
+  description   String?
+  website       String?
+  verified      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  savedBy SavedBuyer[]
+  pitches Pitch[]
+
+  @@map("buyers")
+}
+
+model SavedBuyer {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  status    ContactStatus @default(NOT_CONTACTED)
+  notes     String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  // Relations
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String @db.ObjectId
+  buyer   Buyer  @relation(fields: [buyerId], references: [id])
+  buyerId String @db.ObjectId
+
+  @@unique([userId, buyerId])
+  @@map("saved_buyers")
+}
+
+model Pitch {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  content     String
+  language    String      @default("en")
+  status      PitchStatus @default(DRAFT)
+  quantity    Float?
+  incoterms   String?
+  leadTime    String?
+  price       Float?
+  currency    String      @default("USD")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+  buyer     Buyer?  @relation(fields: [buyerId], references: [id])
+  buyerId   String? @db.ObjectId
+
+  @@map("pitches")
+}
+
+model ComplianceRecord {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  country     String
+  status      ComplianceStatus  @default(IN_PROGRESS)
+  progress    Float             @default(0)
+  requirements ComplianceItem[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  // Relations
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+
+  @@map("compliance_records")
+}
+
+model FileUpload {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  filename  String
+  originalName String
+  mimeType  String
+  size      Int
+  path      String
+  category  FileCategory
+  createdAt DateTime   @default(now())
+
+  @@map("file_uploads")
+}
+
+model ReliefScheme {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  eligibility String[]
+  benefits    String[]
+  deadline    DateTime?
+  isActive    Boolean  @default(true)
+  category    String
+  targetSector Sector?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  applications SchemeApplication[]
+
+  @@map("relief_schemes")
+}
+
+model SchemeApplication {
+  id        String              @id @default(auto()) @map("_id") @db.ObjectId
+  status    ApplicationStatus   @default(DRAFT)
+  data      Json
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  // Relations
+  scheme   ReliefScheme @relation(fields: [schemeId], references: [id])
+  schemeId String       @db.ObjectId
+
+  @@map("scheme_applications")
+}
+
+model ForumPost {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  content   String
+  sector    Sector?
+  country   String?
+  upvotes   Int      @default(0)
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  author  User         @relation(fields: [authorId], references: [id])
+  authorId String      @db.ObjectId
+  replies ForumReply[]
+
+  @@map("forum_posts")
+}
+
+model ForumReply {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  upvotes   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  author User      @relation(fields: [authorId], references: [id])
+  authorId String  @db.ObjectId
+  post   ForumPost @relation(fields: [postId], references: [id])
+  postId String    @db.ObjectId
+
+  @@map("forum_replies")
+}
+
+model ImpactLog {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  type        ImpactType
+  description String
+  value       Float?
+  currency    String?
+  country     String?
+  createdAt   DateTime   @default(now())
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+
+  @@map("impact_logs")
+}
+
+// Enums
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Sector {
+  SEAFOOD
+  TEXTILE
+  BOTH
+}
+
+enum ContactStatus {
+  NOT_CONTACTED
+  CONTACTED
+  REPLIED
+  NEGOTIATING
+  CLOSED
+}
+
+enum PitchStatus {
+  DRAFT
+  SENT
+  VIEWED
+  REPLIED
+  ACCEPTED
+  REJECTED
+}
+
+enum ComplianceStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  EXPIRED
+}
+
+enum FileCategory {
+  LABEL
+  LAB_REPORT
+  CERTIFICATE
+  DOCUMENT
+  IMAGE
+}
+
+enum ApplicationStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum ImpactType {
+  PITCH_SENT
+  BUYER_CONTACT
+  ORDER_RECEIVED
+  REVENUE_GENERATED
+  JOBS_RETAINED
+  MARKET_ENTERED
+}
+
+// Embedded types
+type ComplianceItem {
+  requirement String
+  completed   Boolean @default(false)
+  evidence    String?
+  notes       String?
+}

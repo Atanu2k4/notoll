@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Custom brand colors for Tailwind */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-cta-accent: var(--cta-accent);
+  --color-secondary-accent: var(--secondary-accent);
+}
+
+:root {
+  --radius: 0.625rem;
+  /* Light Mode - Your Styling Guide */
+  --background: #f9fafb; /* Light mode background */
+  --foreground: #1e293b; /* Light mode text */
+  --card: #ffffff; /* Card background */
+  --card-foreground: #1e293b; /* Card text */
+  --popover: #ffffff; /* Popover background */
+  --popover-foreground: #1e293b; /* Popover text */
+  --primary: #0077b6; /* Light mode brand primary */
+  --primary-foreground: #ffffff; /* Primary button text */
+  --secondary: #009688; /* Light mode brand secondary */
+  --secondary-foreground: #ffffff; /* Secondary button text */
+  --muted: #f1f5f9; /* Muted background */
+  --muted-foreground: #64748b; /* Muted text */
+  --accent: #ff6b6b; /* CTA/Accent color */
+  --accent-foreground: #ffffff; /* Accent text */
+  --destructive: #ef4444; /* Destructive/error color */
+  --border: #e2e8f0; /* Borders/UI */
+  --input: #e2e8f0; /* Input borders */
+  --ring: #0077b6; /* Focus ring - brand primary */
+  --chart-1: #0077b6; /* Primary brand */
+  --chart-2: #009688; /* Secondary brand */
+  --chart-3: #ff6b6b; /* CTA/Accent */
+  --chart-4: #ffd166; /* Secondary accent */
+  --chart-5: #38bdf8; /* Additional chart color */
+  --sidebar: #ffffff; /* Sidebar background */
+  --sidebar-foreground: #1e293b; /* Sidebar text */
+  --sidebar-primary: #0077b6; /* Sidebar primary */
+  --sidebar-primary-foreground: #ffffff; /* Sidebar primary text */
+  --sidebar-accent: #f1f5f9; /* Sidebar accent */
+  --sidebar-accent-foreground: #1e293b; /* Sidebar accent text */
+  --sidebar-border: #e2e8f0; /* Sidebar border */
+  --sidebar-ring: #0077b6; /* Sidebar focus ring */
+
+  /* Custom brand colors */
+  --brand-primary: #0077b6;
+  --brand-secondary: #009688;
+  --cta-accent: #ff6b6b;
+  --secondary-accent: #ffd166;
+}
+
+.dark {
+  /* Dark Mode - Your Styling Guide */
+  --background: #0f172a; /* Dark mode primary background */
+  --foreground: #f1f5f9; /* Dark mode primary text */
+  --card: #1e293b; /* Dark mode secondary panels/cards */
+  --card-foreground: #f1f5f9; /* Dark mode card text */
+  --popover: #1e293b; /* Dark mode popover background */
+  --popover-foreground: #f1f5f9; /* Dark mode popover text */
+  --primary: #38bdf8; /* Dark mode brand primary */
+  --primary-foreground: #0f172a; /* Dark mode primary button text */
+  --secondary: #2dd4bf; /* Dark mode brand secondary */
+  --secondary-foreground: #0f172a; /* Dark mode secondary button text */
+  --muted: #1e293b; /* Dark mode muted background */
+  --muted-foreground: #cbd5e1; /* Dark mode secondary text */
+  --accent: #ff6b6b; /* CTA/Accent color (same in both modes) */
+  --accent-foreground: #ffffff; /* Accent text */
+  --destructive: #ef4444; /* Destructive/error color */
+  --border: #374151; /* Dark mode borders */
+  --input: #374151; /* Dark mode input borders */
+  --ring: #38bdf8; /* Dark mode focus ring */
+  --chart-1: #38bdf8; /* Dark mode primary brand */
+  --chart-2: #2dd4bf; /* Dark mode secondary brand */
+  --chart-3: #ff6b6b; /* CTA/Accent */
+  --chart-4: #ffd166; /* Secondary accent */
+  --chart-5: #0077b6; /* Additional chart color */
+  --sidebar: #1e293b; /* Dark mode sidebar background */
+  --sidebar-foreground: #f1f5f9; /* Dark mode sidebar text */
+  --sidebar-primary: #38bdf8; /* Dark mode sidebar primary */
+  --sidebar-primary-foreground: #0f172a; /* Dark mode sidebar primary text */
+  --sidebar-accent: #0f172a; /* Dark mode sidebar accent */
+  --sidebar-accent-foreground: #f1f5f9; /* Dark mode sidebar accent text */
+  --sidebar-border: #374151; /* Dark mode sidebar border */
+  --sidebar-ring: #38bdf8; /* Dark mode sidebar focus ring */
+
+  /* Custom brand colors for dark mode */
+  --brand-primary: #38bdf8;
+  --brand-secondary: #2dd4bf;
+  --cta-accent: #ff6b6b;
+  --secondary-accent: #ffd166;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Cool animations for landing page */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes float-delayed {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+/* Section anchors with offset for navbar */
+section[id] {
+  scroll-margin-top: 80px;
+}
