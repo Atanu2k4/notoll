@@ -26,21 +26,14 @@ import { Separator } from "@/components/ui/separator";
 
 const mainNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "Market Intelligence", href: "/market", icon: TrendingUp },
-  { name: "Buyer Directory", href: "/buyers", icon: Users },
-  { name: "Pitch Assistant", href: "/pitches", icon: MessageSquare },
-];
-
-const resourcesNavigation = [
-  { name: "Compliance Center", href: "/compliance", icon: Shield },
-  { name: "Relief Navigator", href: "/relief", icon: DollarSign },
-  { name: "Community Forum", href: "/community", icon: MessageCircle },
-];
-
-const insightNavigation = [
-  { name: "Success Stories", href: "/stories", icon: Trophy },
-  { name: "Impact Tracker", href: "/impact", icon: BarChart3 },
-  { name: "Account Settings", href: "/settings", icon: Settings },
+  { name: "Market Intelligence", href: "/dashboard/market", icon: TrendingUp },
+  { name: "Buyers", href: "/dashboard/buyers", icon: Users },
+  { name: "Pitches", href: "/dashboard/pitches", icon: MessageSquare },
+  { name: "Compliance", href: "/dashboard/compliance", icon: Shield },
+  { name: "Schemes", href: "/dashboard/schemes", icon: DollarSign },
+  { name: "Forum", href: "/dashboard/forum", icon: MessageCircle },
+  { name: "Impact", href: "/dashboard/impact", icon: BarChart3 },
+  { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 interface SidebarProps {
@@ -109,32 +102,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="flex flex-1 flex-col overflow-hidden">
             <div className="px-3 py-4">
               <h2 className="px-4 text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                Main
+                Navigation
               </h2>
               <div className="mt-2 space-y-1">
                 {mainNavigation.map((item) => (
-                  <NavItem key={item.name} item={item} />
-                ))}
-              </div>
-            </div>
-
-            <div className="px-3 py-2">
-              <h2 className="px-4 text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                Resources
-              </h2>
-              <div className="mt-2 space-y-1">
-                {resourcesNavigation.map((item) => (
-                  <NavItem key={item.name} item={item} />
-                ))}
-              </div>
-            </div>
-
-            <div className="px-3 py-2">
-              <h2 className="px-4 text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                Insights & Settings
-              </h2>
-              <div className="mt-2 space-y-1">
-                {insightNavigation.map((item) => (
                   <NavItem key={item.name} item={item} />
                 ))}
               </div>
@@ -201,32 +172,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
             <div className="px-3 py-4">
               <h2 className="px-4 text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                Main
+                Navigation
               </h2>
               <div className="mt-2 space-y-1">
                 {mainNavigation.map((item) => (
-                  <NavItem key={item.name} item={item} />
-                ))}
-              </div>
-
-              <div className="h-px bg-gray-800/80 my-4" />
-
-              <h2 className="px-4 text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                Resources
-              </h2>
-              <div className="mt-2 space-y-1">
-                {resourcesNavigation.map((item) => (
-                  <NavItem key={item.name} item={item} />
-                ))}
-              </div>
-
-              <div className="h-px bg-gray-800/80 my-4" />
-
-              <h2 className="px-4 text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                Insights & Settings
-              </h2>
-              <div className="mt-2 space-y-1">
-                {insightNavigation.map((item) => (
                   <NavItem key={item.name} item={item} />
                 ))}
               </div>

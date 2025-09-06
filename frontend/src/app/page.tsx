@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import OnboardingModal from "@/components/onboarding/OnboardingModal";
 import {
   ArrowRight,
   Menu,
@@ -27,8 +28,12 @@ import {
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const openOnboarding = () => setIsOnboardingOpen(true);
+  const closeOnboarding = () => setIsOnboardingOpen(false);
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
@@ -104,11 +109,12 @@ export default function Home() {
                     Sign In
                   </Button>
                 </Link>
-                <Link href="/signup">
-                  <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-2 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105">
-                    Get Started
-                  </Button>
-                </Link>
+                <Button
+                  onClick={openOnboarding}
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-2 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105"
+                >
+                  Get Started
+                </Button>
               </div>
 
               {/* Mobile menu button */}
@@ -163,11 +169,15 @@ export default function Home() {
               >
                 Contact
               </a>
-              <Link href="/signup" className="block" onClick={toggleMenu}>
-                <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground rounded-full">
-                  Get Started
-                </Button>
-              </Link>
+              <Button
+                onClick={() => {
+                  openOnboarding();
+                  toggleMenu();
+                }}
+                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground rounded-full"
+              >
+                Get Started
+              </Button>
             </div>
           )}
         </div>
@@ -197,16 +207,39 @@ export default function Home() {
 
           {/* Single CTA Button */}
           <div className="flex justify-center mb-16">
-            <Link href="/signup">
-              <Button
-                size="lg"
-                className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:shadow-2xl hover:scale-110 transform focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-                aria-label="Start your export journey"
-              >
-                Start Your Journey
-                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-              </Button>
-            </Link>
+            <Button
+              onClick={openOnboarding}
+              size="lg"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:shadow-2xl hover:scale-110 transform focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              aria-label="Start your export journey"
+            >
+              Start Your Journey
+              <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+            </Button>
+          </div>
+
+          {/* Trusted Logos */}
+          <div className="mt-16">
+            <p className="text-sm text-muted-foreground mb-8 uppercase tracking-wider">
+              Trusted by exporters from
+            </p>
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 hover:opacity-80 transition-opacity">
+              <div className="text-2xl font-bold text-muted-foreground">
+                APEDA
+              </div>
+              <div className="text-2xl font-bold text-muted-foreground">
+                FIDR
+              </div>
+              <div className="text-2xl font-bold text-muted-foreground">
+                MPEDA
+              </div>
+              <div className="text-2xl font-bold text-muted-foreground">
+                EIC
+              </div>
+              <div className="text-2xl font-bold text-muted-foreground">
+                TEXPROCIL
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -740,6 +773,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Onboarding Modal */}
+      <OnboardingModal isOpen={isOnboardingOpen} onClose={closeOnboarding} />
     </div>
   );
 }
